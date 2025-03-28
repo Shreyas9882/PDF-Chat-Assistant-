@@ -10,16 +10,11 @@ Key features include:
 5. Simple web interface for easy interaction
 
 Technology Stack
-Backend: Flask (Python web framework)
 
-Frontend: HTML, CSS with Tailwind, JavaScript
-
-NLP Processing:
-
-LangChain for document processing and conversation management
-
-Ollama for LLM (Large Language Model) capabilities
-
-FAISS for efficient vector similarity search
-
-PDF Processing: PyPDF2 library
+1. Frontend: HTML, CSS with Tailwind, JavaScript
+2. Backend: Flask (Python web framework)
+3. NLP Processing: LangChain for document processing and conversation management
+                    Ollama for LLM (Large Language Model) capabilities
+                   FAISS for efficient vector similarity search
+4. PDF Processing: PyPDF2 library
+   
