@@ -26,4 +26,34 @@ How It Works
 4. System finds relevant sections and generates answers
 5. Conversation history is maintained for context
 
+You Upload PDFs
 
+Drag & drop files into the web app.
+
+The system extracts all text from the documents.
+
+AI Digests the Content
+
+Splits text into manageable chunks.
+
+Converts them into "vector embeddings" (numeric representations of meaning).
+
+Stores them in a fast-search database (FAISS).
+
+You Ask Questions
+
+Type natural language queries (e.g., "Summarize the key points" or "What does page 15 say about X?").
+
+The AI:
+
+Finds the most relevant text chunks from your files.
+
+Uses Ollama’s LLM (Llama 2) to generate a clear, accurate answer.
+
+Remembers conversation history for follow-up questions.
+
+Instant, Document-Based Answers
+
+Responses are grounded in your uploaded files, not generic web knowledge.
+
+Works like a smart search + AI assistant for your PDFs.
