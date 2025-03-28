@@ -17,4 +17,13 @@ Technology Stack
                     Ollama for LLM (Large Language Model) capabilities
                    FAISS for efficient vector similarity search
 4. PDF Processing: PyPDF2 library
-   
+
+How It Works
+
+1. User uploads one or more PDF documents
+2. System processes the documents into searchable vectors
+3. User asks questions about the document content
+4. System finds relevant sections and generates answers
+5. Conversation history is maintained for context
+
+
