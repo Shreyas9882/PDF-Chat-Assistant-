@@ -8,3 +8,18 @@ Key features include:
 3. Vector embeddings for semantic understanding
 4. Conversational memory for contextual questions
 5. Simple web interface for easy interaction
+
+Technology Stack
+Backend: Flask (Python web framework)
+
+Frontend: HTML, CSS with Tailwind, JavaScript
+
+NLP Processing:
+
+LangChain for document processing and conversation management
+
+Ollama for LLM (Large Language Model) capabilities
+
+FAISS for efficient vector similarity search
+
+PDF Processing: PyPDF2 library
