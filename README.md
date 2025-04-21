@@ -1,51 +1,120 @@
-# PDF-Chat-Assistant-
-The PDF Chat Assistant is a web application that allows users to upload PDF documents and then ask questions about their content. The system uses natural language processing to understand and answer questions based on the uploaded documents. 
+
+## **Project Title:**  
+AI-Powered PDF-Based Question Answering System using LangChain, Ollama, FAISS, and Flask
 
 
-KEY FEATURE INCLUDE
-1. PDF document processing and text extraction
-2. Text chunking for efficient processing
-3. Vector embeddings for semantic understanding
-4. Conversational memory for contextual questions
-5. Simple web interface for easy interaction
 
-TECHNOLOGY STACK
-
-1. Frontend: HTML, CSS with Tailwind, JavaScript
-2. Backend: Flask (Python web framework)
-3. NLP Processing: LangChain for document processing and conversation management
-                    Ollama for LLM (Large Language Model) capabilities
-                   FAISS for efficient vector similarity search
-4. PDF Processing: PyPDF2 library
-
-HOW IT WORKS
-1. User uploads one or more PDF documents
-2. System processes the documents into searchable vectors
-3. User asks questions about the document content
-4. System finds relevant sections and generates answers
-5. Conversation history is maintained for context
-
-WORKING PRINCIPLE
-1. You Upload PDFs
-2. The system extracts all text from the documents.
-3. AI Splits text into manageable chunks.
-4. Converts them into "vector embeddings" (numeric representations of meaning).
-5. Stores them in a fast-search database (FAISS).
-6. You Ask Questions
-7. The AI Finds the most relevant text chunks from your files.
-8. Uses Ollama’s LLM (Llama 2) to generate a clear, accurate answer.
-9. Remembers conversation history for follow-up questions.
-10. Responses are grounded in your uploaded files, not generic web knowledge.
-
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/99928125-c409-4ee5-b2eb-a008b5227ebc" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/b99abed6-c13c-4799-a00f-52b18a0fa517" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/68b2538c-21ad-4324-9839-7080fcc66499" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/88268baf-090d-43e6-b32e-0eb27ff98ad7" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/a627d5c8-3700-47f1-bf01-952cf3a4a9d6" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/03e704a6-2ca0-4afd-85a4-a264be9fe3af" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/88dd5f38-c063-4661-91a0-319a97817a36" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/a3ed4f87-9dfd-4bb4-a365-153041ffc128" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/01378ecc-efe5-45fb-9ca3-58eeba237f85" />
-<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/51e8d185-b691-4cf4-95ea-85e89e773aba" />
+## **Objective:**  
+To create a document question-answering system where users can upload PDF files, ask questions related to the uploaded content, and receive precise and contextually relevant answers using a Large Language Model (LLM). The system processes the documents into embeddings, stores them in a vector store, and uses semantic search to retrieve relevant information for each user query.
 
 
+
+## **Step-by-Step Working Principle:**
+
+### **1. User Uploads PDF Documents**
+- The user uploads one or more PDF documents via the `/upload` route in the Flask application.
+- These files are read and processed using the `PyPDF2` library to extract raw text content from each page.
+
+
+### **2. Text Chunking**
+- Since LLMs and embedding models work better with manageable text sizes, the raw text is split into smaller chunks using LangChain’s `RecursiveCharacterTextSplitter`.
+- Each chunk is typically limited to a defined character length (e.g., 1500 characters) with some overlap to preserve context across boundaries.
+
+
+
+### **3. Text Embedding**
+- Every chunk of text is passed to an embedding model (`OllamaEmbeddings` using the `llama2` model).
+- Embeddings are numeric vector representations of text that capture its semantic meaning.
+- These embeddings are created for each text chunk and stored in a vector database (FAISS in this implementation).
+
+
+
+### **4. Vector Store Creation (Knowledge Base)**
+- FAISS (Facebook AI Similarity Search) is used to index and store the embeddings.
+- Each embedding vector is associated with its corresponding text chunk so that it can be retrieved later based on similarity to a query.
+
+*Note: The diagram references Pinecone as a scalable vector store. In this implementation, FAISS is used, but the system can be adapted to use Pinecone for production-grade persistence and scaling.*
+
+
+
+### **5. Question Asking and Embedding**
+- When the user submits a question through the `/ask` route, the system first converts the question into an embedding using the same `OllamaEmbeddings` model.
+- This ensures both the document chunks and the question exist in the same vector space for comparison.
+
+
+
+### **6. Semantic Search and Retrieval**
+- A semantic search is performed in the FAISS vector store using the question embedding.
+- FAISS retrieves the top-k most relevant chunks whose embeddings are closest (by cosine similarity or inner product) to the query embedding.
+- These top-ranked text chunks are considered the most relevant context for answering the question.
+
+
+
+### **7. Prompt Construction**
+- The retrieved chunks are formatted into a custom prompt template.
+- The prompt includes:
+  - A system message guiding the LLM to answer like a domain expert.
+  - The retrieved context from the documents.
+  - The user’s question.
+
+
+
+### **8. Answer Generation using LLM**
+- The constructed prompt is sent to the Ollama LLM (specifically using the `llama2` model).
+- The LLM generates a context-aware answer based solely on the information present in the prompt, i.e., the relevant document chunks.
+- The result is returned to the user and stored in memory for chat history.
+
+
+
+### **9. Memory Handling for Conversation Context**
+- The system uses `ConversationBufferMemory` from LangChain to retain past interactions.
+- This enables multi-turn dialogue, where follow-up questions can refer to earlier ones, and the system maintains context.
+
+
+
+### **10. Summarization**
+- During the document upload process, the system generates a summary of the document using the LLM.
+- This summary can be used as an additional system prompt or metadata to improve understanding or guide future queries.
+
+
+### **11. Exporting Q&A as CSV**
+- The application provides an option to export the full conversation as a CSV file.
+- This is handled through `/generate_csv` and `/download` routes.
+- Each row of the CSV file contains a question and its corresponding answer.
+
+
+## **System Architecture Recap (as per the diagram)**
+
+1. **PDF Documents** → Extracted and chunked.
+2. **Chunked Text** → Embedded using Ollama and stored in vector store (FAISS/Pinecone).
+3. **User Question** → Converted to embedding → Semantic search on vector store.
+4. **Top Relevant Chunks** → Used in prompt sent to LLM.
+5. **LLM Output** → Answer generated and returned to the user.
+
+
+
+## **Core Technologies Used**
+
+| Function                       | Tool / Library             |
+|-------------------------------|----------------------------|
+| Backend Framework             | Flask                      |
+| PDF Parsing                   | PyPDF2                     |
+| Text Chunking                 | LangChain - RecursiveCharacterTextSplitter |
+| Embeddings                    | OllamaEmbeddings (llama2)  |
+| Vector Search                 | FAISS                      |
+| Language Model                | Ollama (llama2)            |
+| Memory Management             | LangChain ConversationBufferMemory |
+| Prompt Engineering            | LangChain PromptTemplate   |
+| File Export                   | Python CSV module          |
+
+---
+
+## **Advantages of This Approach**
+- Supports domain-specific question answering.
+- Provides a private, controllable LLM interface using local models like LLaMA2.
+- Uses efficient semantic search rather than brute-force keyword matching.
+- Easily extendable to use cloud vector stores like Pinecone.
+- Flexible and lightweight, can be containerized or deployed as a web API.
+
+
+Let me know if you would like a frontend UI designed for this or a complete deployment plan using Docker or cloud services.
