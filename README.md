@@ -103,3 +103,11 @@ The goal of the system is to:
 - Export question-answer sessions to CSV.
 - Configurable to use either local or cloud-based vector databases (FAISS or Pinecone).
 - Modular and extensible design using LangChain and Flask.
+
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/de48f4a4-6eab-49f4-ad88-0896dec928d6" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/f3341898-4bbc-443d-a990-5888f8f66abc" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/77d1d426-38e3-4d94-82ea-edc8cd86280d" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/fa00f23d-3a76-4794-947c-6ad74efd1563" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/fa394543-57bc-4d08-8dbc-8d3ca13a55d5" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/0b84f236-f172-415a-ae29-3a28af419fbc" />
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/fd39c84a-9097-47a3-86a4-3bcb7d76568d" />
